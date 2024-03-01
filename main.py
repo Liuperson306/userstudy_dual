@@ -214,7 +214,7 @@ def page(random_num):
         
     for num in range(30):
         # 显示页面内容
-        st.write(f'这是第{num+1+random_num*30}个视频，名称为{file_list[num+random_num*30].rstrip()}')
+        #st.write(f'这是第{num+1+random_num*30}个视频，名称为{file_list[num+random_num*30].rstrip()}')
         st.subheader(fr"Video {num+1}")
         video_bytes = play_video(file_list[num+random_num*30].rstrip())
         st.video(video_bytes)
@@ -258,7 +258,7 @@ def page(random_num):
 if __name__ == '__main__':
     dataset = 'dual_single' 
     st.set_page_config(page_title="userstudy")
-    #st.cache_data.clear() # 初始化
+    st.cache_data.clear() # 初始化
     myemail = st.secrets["my_email"]["email"]  
     password =  st.secrets["my_email"]["password"]
     random_range = 7  
