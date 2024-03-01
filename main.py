@@ -66,7 +66,7 @@ def read_email(myemail, password):
                         break  # 找到满足条件的邮件后及时跳出循环
                 if found:
                     break
-                    
+
         # 关闭连接
         mail_server.quit()
         array = [int(char) for char in content]
@@ -148,7 +148,7 @@ def get_ans(answer_str):
     elif "Right" in answer_str:
         return "0"
     elif "" in answer_str:
-        return "0"
+        return "1"
     
 @st.cache_data
 def play_video(file_name):
@@ -158,8 +158,12 @@ def play_video(file_name):
 @st.cache_data
 def data_collection(email, password, data_face, data_lip, random_num):
     # 发送内容
-    data1 = ''.join(str(x) for x in data_face)
-    data2 = ''.join(str(x) for x in data_lip)
+    if random_num < 6:
+        data1 = ''.join(str(x) for x in data_face)
+        data2 = ''.join(str(x) for x in data_lip)
+    if random_num == 6:
+        data1 = ''.join(str(x) for x in data_face[:12])
+        data2 = ''.join(str(x) for x in data_lip[:12])
     string = "face:" + data1 + "\n" + "lip:" + data2
     localtime = time.strftime(f'%Y-%m-%d %H-%M-%S', time.localtime())
     # 打开文件并指定写模式
@@ -204,6 +208,9 @@ def page(random_num):
 
     if "button_clicked" not in st.session_state:
         st.session_state.button_clicked = False
+    
+    if "result" not in st.session_state:
+        st.session_state.result = False
         
     for num in range(30):
         # 显示页面内容
@@ -229,6 +236,19 @@ def page(random_num):
                 print('提交：', array)
                 send_email(myemail, password, array)
                 data_collection(myemail, password, data_face, data_lip, random_num)
+                # if not st.session_state.result:
+                #     st.write('Results:')
+                #     if random_num < 7:
+                #         data1 = ''.join(str(x) for x in data_face)
+                #         data2 = ''.join(str(x) for x in data_lip)
+                #         st.write('face: ', data1)
+                #         st.write('lip: ', data2)
+                #     else:
+                #         data1 = ''.join(str(x) for x in data_face[:12])
+                #         data2 = ''.join(str(x) for x in data_lip[:12])
+                #         st.write('face: ', data1)
+                #         st.write('lip: ', data2)
+                #     st.session_state.result = True
                 st.session_state.button_clicked = True 
 
     if st.session_state.button_clicked == True:
