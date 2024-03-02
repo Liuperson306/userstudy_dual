@@ -286,4 +286,5 @@ if __name__ == '__main__':
                     break
 
     random_num = st.session_state.random_num
+    random_num = 1
     page(random_num)
